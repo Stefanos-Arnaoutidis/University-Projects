@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CVBuilderApp.Models.Resume>
+@{
+    ViewData["Title"] = "Τα Βιογραφικά μου";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
+        <h2 class="fw-bold text-dark mb-0">Τα Βιογραφικά μου</h2>
+        <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4 fw-bold">
+            <span class="me-2 fs-5">+</span> Νέο Βιογραφικό
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-light border-0 shadow-sm rounded-4 p-5 text-center">
+            <div class="display-1 mb-3">📄</div>
+            <h4 class="fw-bold text-dark">Δεν έχετε δημιουργήσει κάποιο βιογραφικό ακόμα.</h4>
+            <p class="text-muted mb-4 fs-5">Ξεκινήστε τώρα πατώντας το κουμπί δημιουργίας και αναδείξτε τα προσόντα σας!</p>
+            <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm fw-bold">Δημιουργία Πρώτου CV</a>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @{
+                int counter = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm custom-hover-card rounded-4 overflow-hidden">
+                        <div class="bg-primary" style="height: 6px;"></div>
+
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h4 class="fw-bold text-dark mb-0">
+                                    <span class="text-primary me-1">📄</span> Βιογραφικό @counter
+                                </h4>
+
+                                @if (item.Status == "Ελέγχθηκε")
+                                {
+                                    <span class="badge bg-success rounded-pill px-3 py-2 shadow-sm fw-bold">✔️ @item.Status</span>
+                                }
+                                else if (item.Status == "Προς Έλεγχο")
+                                {
+                                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 shadow-sm fw-bold">⏳ @item.Status</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary rounded-pill px-3 py-2 shadow-sm fw-bold">💾 @item.Status</span>
+                                }
+                            </div>
+
+                            <p class="text-muted mt-3 mb-4" style="min-height: 48px;">
+                                @(item.AcademicInfo != null && item.AcademicInfo.Length > 70 ? item.AcademicInfo.Substring(0, 70) + "..." : item.AcademicInfo)
+                            </p>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 p-4 pt-0 mt-auto d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary flex-grow-1 rounded-pill fw-bold">
+                                Προβολή &rarr;
+                            </a>
+
+                            @if (item.Status == "Αποθηκευμένο")
+                            {
+                                <form asp-action="RequestEvaluation" asp-route-id="@item.Id" method="post" class="m-0 p-0 flex-grow-1">
+                                    <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold">
+                                        Αξιολόγηση 📤
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+                counter++;
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .custom-hover-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+        .custom-hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+        }
+</style>

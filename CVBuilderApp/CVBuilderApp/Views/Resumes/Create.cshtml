@@ -1,0 +1,140 @@
+﻿@model CVBuilderApp.Models.Resume
+@{
+    ViewData["Title"] = "Δημιουργία Βιογραφικού";
+}
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark mb-0">Νέο Βιογραφικό</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary shadow-sm fw-bold rounded-pill px-4">&larr; Πίσω στα Βιογραφικά</a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-header bg-primary text-white text-center py-4 rounded-top-4">
+                    <h3 class="card-title mb-0 fw-bold">Το Βιογραφικό μου</h3>
+                    <p class="mb-0 text-light opacity-75 mt-1">Συμπληρώστε τα στοιχεία σας για να ξεκινήσετε</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+                    <form asp-action="Create" method="post">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-secondary">Τηλέφωνο</label>
+                                <input asp-for="PhoneNumber" class="form-control bg-light border-0 shadow-sm" placeholder="π.χ. 6900000000" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small fw-bold"></span>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-secondary">Προφίλ LinkedIn / Social</label>
+                                <input asp-for="LinkedIn" class="form-control bg-light border-0 shadow-sm" placeholder="π.χ. linkedin.com/in/username" />
+                                <span asp-validation-for="LinkedIn" class="text-danger small fw-bold"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Προσωπικό Προφίλ / Χαρακτηριστικά</label>
+                            <textarea asp-for="PersonalSummary" class="form-control bg-light border-0 shadow-sm" rows="3" placeholder="Μια σύντομη περιγραφή του εαυτού σας..."></textarea>
+                            <span asp-validation-for="PersonalSummary" class="text-danger small fw-bold"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Ακαδημαϊκά Στοιχεία <span class="text-danger">*</span></label>
+                            <textarea asp-for="AcademicInfo" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Π.χ. Φοιτητής Πληροφορικής, ΠΑΠΕΙ..."></textarea>
+                            <span asp-validation-for="AcademicInfo" class="text-danger small fw-bold"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Εργασιακή Εμπειρία <span class="text-danger">*</span></label>
+                            <textarea asp-for="WorkInfo" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Π.χ. Αποθηκάριος (5ήμερο, 8ωρο)..."></textarea>
+                            <span asp-validation-for="WorkInfo" class="text-danger small fw-bold"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Δεξιότητες (Skills)</label>
+
+                            @if (ViewBag.PredefinedItems != null)
+                            {
+                                var allItems = ViewBag.PredefinedItems as IEnumerable<CVBuilderApp.Models.PredefinedList>;
+                                var skills = allItems?.Where(x => x.Type == "Skill").ToList();
+                                var languages = allItems?.Where(x => x.Type == "Language").ToList();
+
+                                if (skills != null && skills.Any())
+                                {
+                                    <div class="mb-2">
+                                        <span class="small text-muted me-2">Τεχνικές Γνώσεις:</span>
+                                        @foreach (var item in skills)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill me-1 mb-1" onclick="appendSkill('@item.Name')">
+                                                + @item.Name
+                                            </button>
+                                        }
+                                    </div>
+                                }
+
+                                if (languages != null && languages.Any())
+                                {
+                                    <div class="mb-2">
+                                        <span class="small text-muted me-2">Ξένες Γλώσσες:</span>
+                                        @foreach (var item in languages)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-info text-dark rounded-pill me-1 mb-1" onclick="appendSkill('@item.Name')">
+                                                + @item.Name
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            }
+
+                            <textarea asp-for="Skills" class="form-control bg-light border-0 shadow-sm" rows="3" placeholder="π.χ. Java, Python, Godot, Ομαδικότητα..."></textarea>
+                            <span asp-validation-for="Skills" class="text-danger small fw-bold"></span>
+                        </div>
+
+                        <div class="mb-5 mt-5 p-4 bg-light rounded-4 border border-primary border-opacity-25 shadow-sm">
+                            <label class="form-label fw-bold text-primary mb-3">Επιλογή Προτύπου <span class="text-danger">*</span></label>
+                            <select asp-for="TemplateId" class="form-select form-select-lg border-primary text-dark fw-bold shadow-sm">
+                                <option value="">-- Επιλέξτε εικαστικό πρότυπο --</option>
+                                @foreach (var template in ViewBag.Templates)
+                                {
+                                    <option value="@template.Id">@template.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="TemplateId" class="text-danger small fw-bold mt-2 d-block"></span>
+                        </div>
+
+                        <div class="d-grid mt-2">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm fw-bold rounded-pill">Αποθήκευση Βιογραφικού</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function appendSkill(skillName) {
+        var textArea = document.getElementById('Skills');
+        var currentVal = textArea.value.trim();
+
+        // Χωρίζουμε τις υπάρχουσες δεξιότητες με βάση το κόμμα για σωστό έλεγχο
+        var existingSkills = currentVal.split(',').map(function(s) { return s.trim(); });
+
+        // Αν υπάρχει ήδη ακριβώς η ίδια λέξη, αγνόησε το κλικ
+        if (existingSkills.includes(skillName)) {
+            return;
+        }
+
+        if (currentVal.length > 0) {
+            if (!currentVal.endsWith(',')) {
+                textArea.value = currentVal + ', ' + skillName;
+            } else {
+                textArea.value = currentVal + ' ' + skillName;
+            }
+        } else {
+            textArea.value = skillName;
+        }
+    }
+</script>

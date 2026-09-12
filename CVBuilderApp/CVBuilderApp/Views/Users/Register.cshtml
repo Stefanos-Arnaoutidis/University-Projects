@@ -1,0 +1,93 @@
+﻿@model CVBuilderApp.Models.User
+@{
+    ViewData["Title"] = "Εγγραφή Νέου Χρήστη";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-header bg-primary text-white text-center py-4 rounded-top-4">
+                    <h3 class="mb-0 fw-bold">Δημιουργία Λογαριασμού</h3>
+                    <p class="mb-0 text-light opacity-75">Εγγραφείτε για να ξεκινήσετε</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger shadow-sm rounded-3 d-flex align-items-center">
+                            <span class="fs-4 me-2">⚠️</span>
+                            <div>
+                                <strong>Σφάλμα:</strong> @ViewBag.Error
+                            </div>
+                        </div>
+                    }
+
+                    <form asp-action="Register" method="post">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-secondary">Όνομα <span class="text-danger">*</span></label>
+                                <input asp-for="FirstName" class="form-control bg-light" required placeholder="π.χ. Γιάννης" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-secondary">Επώνυμο <span class="text-danger">*</span></label>
+                                <input asp-for="LastName" class="form-control bg-light" required placeholder="π.χ. Ιωάννου" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Email <span class="text-danger">*</span></label>
+                            <input asp-for="Email" type="email" class="form-control bg-light" required placeholder="example@gmail.com" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Κωδικός Πρόσβασης <span class="text-danger">*</span></label>
+                            <input asp-for="PasswordHash" type="password" class="form-control bg-light" required placeholder="********" />
+                        </div>
+
+                        <div class="mb-4 mt-4 p-3 bg-light rounded-3 border">
+                            <label class="form-label fw-bold text-primary">Τύπος Λογαριασμού <span class="text-danger">*</span></label>
+                            <select asp-for="Role" id="roleSelector" class="form-select border-primary fw-bold text-dark" required>
+                                <option value="User">👤 Απλός Χρήστης (Δημιουργία Βιογραφικού)</option>
+                                <option value="Counselor">🔍 Σύμβουλος Καριέρας (Αξιολόγηση)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4 p-3 bg-light rounded-3 border" id="specialtySection" style="display: none;">
+                            <label class="form-label fw-bold text-secondary">Ειδικότητα <span class="text-danger">*</span></label>
+                            <input asp-for="Specialty" class="form-control bg-white" placeholder="π.χ. HR Specialist, IT Recruiter" />
+                            <small class="text-muted mt-1 d-block">Απαραίτητο πεδίο για τον έλεγχο και την έγκριση του προφίλ σας.</small>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm fw-bold rounded-pill">Ολοκλήρωση Εγγραφής</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0">
+                            Έχετε ήδη λογαριασμό;
+                            <a asp-controller="Users" asp-action="Login" class="text-primary fw-bold text-decoration-none">Συνδεθείτε εδώ</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Δυναμική εμφάνιση του πεδίου Ειδικότητας ανάλογα με τον ρόλο
+    document.getElementById('roleSelector').addEventListener('change', function () {
+        var specialtyDiv = document.getElementById('specialtySection');
+        if (this.value === 'Counselor') {
+            specialtyDiv.style.display = 'block';
+        } else {
+            specialtyDiv.style.display = 'none';
+        }
+    });
+</script>

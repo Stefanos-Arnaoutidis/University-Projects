@@ -1,0 +1,89 @@
+﻿@model CVBuilderApp.Models.Resume
+@{
+    ViewData["Title"] = "Αξιολόγηση Βιογραφικού";
+}
+
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">Αξιολόγηση Βιογραφικού #@Model.Id</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary shadow-sm fw-bold">&larr; Πίσω στη Λίστα</a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0 fw-bold">Πληροφορίες Βιογραφικού (@ViewBag.StudentName)</h5>
+                </div>
+                <div class="card-body p-4 bg-light">
+
+                    <div class="mb-4">
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <p class="mb-1 fs-5"><strong>📞 Τηλ:</strong> @Model.PhoneNumber</p>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.LinkedIn))
+                        {
+                            <p class="mb-1 fs-5"><strong>🔗 LinkedIn:</strong> <a href="@Model.LinkedIn" target="_blank" class="text-decoration-none">@Model.LinkedIn</a></p>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.PersonalSummary))
+                    {
+                        <h6 class="fw-bold text-primary text-uppercase border-bottom border-primary pb-2">Προσωπικό Προφίλ</h6>
+                        <p style="white-space: pre-wrap;" class="bg-white border p-3 rounded shadow-sm">@Model.PersonalSummary</p>
+                    }
+
+                    <h6 class="fw-bold text-primary text-uppercase border-bottom border-primary pb-2 mt-4">Ακαδημαϊκά Στοιχεία</h6>
+                    <p style="white-space: pre-wrap;" class="bg-white border p-3 rounded shadow-sm">@Model.AcademicInfo</p>
+
+                    <h6 class="fw-bold text-primary text-uppercase border-bottom border-primary pb-2 mt-4">Εργασιακή Εμπειρία</h6>
+                    <p style="white-space: pre-wrap;" class="bg-white border p-3 rounded shadow-sm">@Model.WorkInfo</p>
+
+                    @if (!string.IsNullOrEmpty(Model.Skills))
+                    {
+                        <h6 class="fw-bold text-primary text-uppercase border-bottom border-primary pb-2 mt-4">Δεξιότητες</h6>
+                        <p style="white-space: pre-wrap;" class="bg-white border p-3 rounded shadow-sm mb-0">@Model.Skills</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-primary border-0 sticky-top" style="top: 20px;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 fw-bold">Συγγραφή Ανατροφοδότησης</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="SaveFeedback" method="post">
+                        <input type="hidden" name="resumeId" value="@Model.Id" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-dark">Γενική Αξιολόγηση <span class="text-danger">*</span></label>
+                            <textarea name="generalComments" class="form-control bg-light border-secondary" rows="3" placeholder="Συνολική εικόνα του βιογραφικού..." required oninvalid="this.setCustomValidity('Παρακαλώ συμπληρώστε αυτό το πεδίο!')" oninput="this.setCustomValidity('')"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-dark">Σχόλια για Εκπαίδευση <span class="text-danger">*</span></label>
+                            <textarea name="academicComments" class="form-control bg-light border-secondary" rows="3" placeholder="Προτάσεις βελτίωσης..." required oninvalid="this.setCustomValidity('Παρακαλώ συμπληρώστε αυτό το πεδίο!')" oninput="this.setCustomValidity('')"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-dark">Σχόλια για Εμπειρία <span class="text-danger">*</span></label>
+                            <textarea name="workExperienceComments" class="form-control bg-light border-secondary" rows="3" placeholder="Προτάσεις βελτίωσης..." required oninvalid="this.setCustomValidity('Παρακαλώ συμπληρώστε αυτό το πεδίο!')" oninput="this.setCustomValidity('')"></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark">Σχόλια για Δεξιότητες <span class="text-danger">*</span></label>
+                            <textarea name="skillsComments" class="form-control bg-light border-secondary" rows="3" placeholder="Προτάσεις βελτίωσης..." required oninvalid="this.setCustomValidity('Παρακαλώ συμπληρώστε αυτό το πεδίο!')" oninput="this.setCustomValidity('')"></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm fw-bold">Ολοκλήρωση Αξιολόγησης</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CVBuilderApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CVBuilderApp.styles.css" asp-append-version="true" />
+
+    <style>
+        .navbar-custom {
+            background-color: #1e2125;
+            border-bottom: 3px solid #0d6efd;
+        }
+        .nav-link.custom-hover {
+            position: relative;
+            transition: color 0.3s ease;
+            font-weight: 500;
+            padding-bottom: 0.5rem;
+        }
+        .nav-link.custom-hover::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #0d6efd;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link.custom-hover:hover::after {
+            width: 80%;
+        }
+        .user-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: background 0.3s;
+        }
+        .user-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom box-shadow mb-4 py-3 sticky-top">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand fw-bolder fs-4 tracking-tight" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="text-primary">CV</span>Builder
+                </a>
+
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-end">
+                    <ul class="navbar-nav align-items-center gap-2">
+                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link custom-hover text-light px-3" asp-area="" asp-controller="Admin" asp-action="Index">🛡️ Εγκρίσεις</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link custom-hover text-light px-3" asp-area="" asp-controller="Admin" asp-action="Templates">🎨 Πρότυπα</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link custom-hover text-light px-3" asp-area="" asp-controller="Admin" asp-action="ManageLists">📋 Λίστες</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link custom-hover text-light px-3" asp-area="" asp-controller="Admin" asp-action="Stats">📊 Στατιστικά</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("User"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link custom-hover text-light px-3" asp-area="" asp-controller="Resumes" asp-action="Index">📄 Τα Βιογραφικά μου</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Counselor"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link custom-hover text-light px-3" asp-area="" asp-controller="Counselor" asp-action="Index">🔍 Αξιολογήσεις</a>
+                                </li>
+                            }
+
+                            <li class="nav-item d-none d-lg-block mx-2">
+                                <span class="text-secondary">|</span>
+                            </li>
+
+                            <li class="nav-item my-2 my-lg-0">
+                                <div class="user-pill rounded-pill px-3 py-2 d-flex align-items-center shadow-sm">
+                                    <span class="me-2 fs-6">👤</span>
+                                    <span class="text-white fw-bold mb-0" style="font-size: 0.95rem;">@User.Identity.Name</span>
+                                    
+                                    @if (User.IsInRole("Counselor") && User.HasClaim(c => c.Type == "Specialty"))
+                                    {
+                                        <span class="badge bg-warning text-dark ms-2 rounded-pill shadow-sm" style="font-size: 0.75rem;">
+                                            @User.FindFirst("Specialty")?.Value
+                                        </span>
+                                    }
+                                </div>
+                            </li>
+
+                            <li class="nav-item ms-lg-2">
+                                <a class="btn btn-danger btn-sm rounded-pill px-4 py-2 fw-bold shadow-sm transition" asp-area="" asp-controller="Users" asp-action="Logout">
+                                    Έξοδος <span class="ms-1">🚪</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item me-2">
+                                <a class="nav-link custom-hover text-light fw-bold px-3" asp-area="" asp-controller="Users" asp-action="Register">Εγγραφή</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm" asp-area="" asp-controller="Users" asp-action="Login">
+                                    Σύνδεση 🔑
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-white py-4 mt-auto">
+        <div class="container text-center fw-bold">
+            &copy; 2026 - <span class="text-primary">CV</span>Builder - 
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-secondary custom-hover">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

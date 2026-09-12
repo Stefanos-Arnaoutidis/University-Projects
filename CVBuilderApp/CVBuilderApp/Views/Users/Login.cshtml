@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Είσοδος Χρήστη";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-header bg-success text-white text-center py-4 rounded-top-4">
+                    <h3 class="mb-0 fw-bold">Είσοδος Χρήστη</h3>
+                    <p class="mb-0 text-light opacity-75">Καλώς ήρθατε ξανά!</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger shadow-sm rounded-3 d-flex align-items-center mb-4">
+                            <span class="fs-4 me-2">⚠️</span>
+                            <div>
+                                <strong>Σφάλμα:</strong> @ViewBag.Error
+                            </div>
+                        </div>
+                    }
+
+                    <form asp-action="Login" method="post">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control form-control-lg bg-light border-secondary" required placeholder="example@gmail.com" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Κωδικός Πρόσβασης <span class="text-danger">*</span></label>
+                            <input type="password" name="password" class="form-control form-control-lg bg-light border-secondary" required placeholder="********" />
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm fw-bold rounded-pill">Σύνδεση</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4 pt-2 border-top">
+                        <p class="text-muted mb-0 mt-2">
+                            Δεν έχετε λογαριασμό;
+                            <a asp-controller="Users" asp-action="Register" class="text-success fw-bold text-decoration-none">Εγγραφείτε εδώ</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

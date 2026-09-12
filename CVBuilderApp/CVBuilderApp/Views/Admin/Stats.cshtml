@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Στατιστικά Πλατφόρμας";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <h2 class="fw-bold text-dark mb-0">📊 Ταμπλό Στατιστικών & Αναφορών</h2>
+        <p class="text-muted mb-0">Συνοπτική εικόνα της δραστηριότητας στην εφαρμογή</p>
+    </div>
+
+    <!-- Ενότητα Βιογραφικών -->
+    <h5 class="fw-bold text-secondary mb-3 mt-4">Δραστηριότητα Βιογραφικών</h5>
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-primary text-white shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body py-4">
+                    <h1 class="display-4 fw-bold">@ViewBag.TotalResumes</h1>
+                    <p class="card-text fs-5 mb-0">Συνολικά CVs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-secondary text-white shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body py-4">
+                    <h1 class="display-4 fw-bold">@ViewBag.SavedResumes</h1>
+                    <p class="card-text fs-5 mb-0">Σε Επεξεργασία</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-warning text-dark shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body py-4">
+                    <h1 class="display-4 fw-bold">@ViewBag.PendingResumes</h1>
+                    <p class="card-text fs-5 mb-0">Αναμένουν Έλεγχο</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center bg-success text-white shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body py-4">
+                    <h1 class="display-4 fw-bold">@ViewBag.EvaluatedResumes</h1>
+                    <p class="card-text fs-5 mb-0">Ολοκληρωμένα</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ΝΕΑ ΕΝΟΤΗΤΑ: Αναφορές Απόδοσης -->
+    <h5 class="fw-bold text-secondary mb-3 mt-5">Αναφορές Απόδοσης</h5>
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 rounded-4 h-100 bg-light border border-info border-opacity-25">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="display-4 me-4">⏱️</div>
+                    <div>
+                        <h2 class="fw-bold text-info mb-1">@ViewBag.AverageEvalTime</h2>
+                        <p class="text-muted fw-bold mb-0">Μέσος Χρόνος Αξιολόγησης (Από την υποβολή ως την ολοκλήρωση)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 rounded-4 h-100 bg-light border border-warning border-opacity-25">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="display-4 me-4">🔥</div>
+                    <div>
+                        <h5 class="fw-bold text-dark mb-2">Τα πιο δημοφιλή πρότυπα:</h5>
+                        @if (ViewBag.PopularTemplates != null)
+                        {
+                            <ul class="mb-0 text-muted fw-bold">
+                                @foreach (var temp in ViewBag.PopularTemplates)
+                                {
+                                    <li>@temp</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ενότητα Χρηστών & Περιεχομένου -->
+    <h5 class="fw-bold text-secondary mb-3 mt-5">Χρήστες & Περιεχόμενο</h5>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-dark border-bottom pb-2">👥 Κοινότητα</h5>
+                    <ul class="list-group list-group-flush mt-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Εγγεγραμμένοι Φοιτητές
+                            <span class="badge bg-primary rounded-pill fs-6">@ViewBag.TotalUsers</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Ενεργοί Σύμβουλοι
+                            <span class="badge bg-success rounded-pill fs-6">@ViewBag.TotalCounselors</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Σύμβουλοι σε Αναμονή
+                            <span class="badge bg-danger rounded-pill fs-6">@ViewBag.PendingCounselors</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-dark border-bottom pb-2">⚙️ Σύστημα</h5>
+                    <ul class="list-group list-group-flush mt-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Διαθέσιμα Πρότυπα
+                            <span class="badge bg-dark rounded-pill fs-6">@ViewBag.TotalTemplates</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Προκαθορισμένες Επιλογές
+                            <span class="badge bg-info text-dark rounded-pill fs-6">@ViewBag.TotalPredefinedLists</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 rounded-4 h-100 bg-light border border-success border-opacity-25">
+                <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+                    <h1 class="display-1 mb-0">💬</h1>
+                    <h2 class="fw-bold text-success mt-2 mb-0">@ViewBag.TotalFeedbacks</h2>
+                    <p class="text-muted fw-bold">Συνολικές Αξιολογήσεις που γράφτηκαν από συμβούλους</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,248 @@
+﻿@model CVBuilderApp.Models.Resume
+@{
+    ViewData["Title"] = "Προβολή Βιογραφικού";
+    string templateName = ViewBag.TemplateName ?? "Κλασικό";
+}
+
+<style>
+    /* Βασικές ρυθμίσεις χαρτιού */
+    .cv-page {
+        max-width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        background-color: white;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    }
+
+    /* Ρυθμίσεις εκτύπωσης */
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .cv-page, .cv-page * {
+            visibility: visible;
+        }
+
+        .cv-page {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        @@page {
+            margin: 0;
+        }
+    }
+
+    /* Custom Γραμματοσειρές */
+    .font-classic {
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .font-modern {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .font-minimal {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 bg-light p-3 rounded shadow-sm border no-print">
+        <a asp-action="Index" class="btn btn-outline-secondary fw-bold rounded-pill px-4">&larr; Πίσω στα Βιογραφικά</a>
+
+        <div class="d-flex align-items-center gap-3">
+            <span class="fw-bold text-muted">Κατάσταση: @Model.Status</span>
+            
+            @if (Model.Status == "Αποθηκευμένο")
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning text-dark rounded-pill fw-bold shadow-sm px-3">
+                    ✏️ Επεξεργασία
+                </a>
+                
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="m-0 p-0" onsubmit="return confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικά αυτό το βιογραφικό;');">
+                    <button type="submit" class="btn btn-danger rounded-pill fw-bold shadow-sm px-3">
+                        🗑️ Διαγραφή
+                    </button>
+                </form>
+            }
+            else if (Model.Status == "Ελέγχθηκε")
+            {
+                <button class="btn btn-success fw-bold rounded-pill px-4" onclick="window.print()">🖨️ Εκτύπωση PDF</button>
+            }
+            else
+            {
+                <button class="btn btn-secondary fw-bold rounded-pill px-4" disabled title="Πρέπει να ελεγχθεί για να εκτυπωθεί.">
+                    🔒 Εκτύπωση PDF
+                </button>
+            }
+        </div>
+    </div>
+
+    @if (ViewBag.Feedback != null)
+    {
+        <div class="alert alert-warning shadow-sm mb-4 border-warning border-2 no-print">
+            <h5 class="alert-heading fw-bold mb-3">📌 Παρατηρήσεις από τον Σύμβουλο:</h5>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Feedback.GeneralComments))
+            {
+                <h6 class="fw-bold mb-1 text-dark">Γενική Αξιολόγηση</h6>
+                <p style="white-space: pre-wrap;" class="mb-3">@ViewBag.Feedback.GeneralComments</p>
+            }
+
+            @if (!string.IsNullOrEmpty(ViewBag.Feedback.AcademicComments))
+            {
+                <h6 class="fw-bold mb-1 text-dark">Εκπαίδευση</h6>
+                <p style="white-space: pre-wrap;" class="mb-3">@ViewBag.Feedback.AcademicComments</p>
+            }
+
+            @if (!string.IsNullOrEmpty(ViewBag.Feedback.WorkExperienceComments))
+            {
+                <h6 class="fw-bold mb-1 text-dark">Εμπειρία</h6>
+                <p style="white-space: pre-wrap;" class="mb-3">@ViewBag.Feedback.WorkExperienceComments</p>
+            }
+
+            @if (!string.IsNullOrEmpty(ViewBag.Feedback.SkillsComments))
+            {
+                <h6 class="fw-bold mb-1 text-dark">Δεξιότητες</h6>
+                <p style="white-space: pre-wrap;" class="mb-0">@ViewBag.Feedback.SkillsComments</p>
+            }
+        </div>
+    }
+
+    <div class="cv-page overflow-hidden border">
+
+        @if (templateName == "Μοντέρνο")
+        {
+            /* Μοντέρνο */
+            <div class="row g-0 h-100 font-modern" style="min-height: 297mm;">
+                <div class="col-4 text-white p-4" style="background-color: #2c3e50;">
+                    <h5 class="fw-bold mb-4 border-bottom border-secondary pb-2 text-info">Επικοινωνία</h5>
+                    <ul class="list-unstyled fs-6">
+                        <li class="mb-3">📧 @ViewBag.UserEmail</li>
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <li class="mb-3">📞 @Model.PhoneNumber</li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.LinkedIn))
+                        {
+                            <li class="mb-3">🔗 @Model.LinkedIn</li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-8 p-5 bg-white">
+                    <h2 class="fw-bolder mb-1 text-dark">@ViewBag.UserFullName</h2>
+                    <div class="bg-info mb-4 mt-2" style="height: 3px; width: 50px;"></div>
+
+                    @if (!string.IsNullOrEmpty(Model.PersonalSummary))
+                    {
+                        <h6 class="fw-bold text-uppercase text-secondary mb-2">Προσωπικο Προφιλ</h6>
+                        <p style="white-space: pre-wrap;" class="mb-4 text-dark fs-6">@Model.PersonalSummary</p>
+                    }
+
+                    <h6 class="fw-bold text-uppercase text-secondary mb-2 border-bottom pb-1">Εμπειρια</h6>
+                    <p style="white-space: pre-wrap;" class="mb-4 text-dark fs-6">@Model.WorkInfo</p>
+
+                    <h6 class="fw-bold text-uppercase text-secondary mb-2 border-bottom pb-1">Εκπαιδευση</h6>
+                    <p style="white-space: pre-wrap;" class="mb-4 text-dark fs-6">@Model.AcademicInfo</p>
+
+                    @if (!string.IsNullOrEmpty(Model.Skills))
+                    {
+                        <h6 class="fw-bold text-uppercase text-secondary mb-2 border-bottom pb-1 mt-4">Δεξιοτητες</h6>
+                        <p style="white-space: pre-wrap;" class="mb-4 text-dark fs-6">@Model.Skills</p>
+                    }
+                </div>
+            </div>
+        }
+        else if (templateName == "Κλασικό" || templateName == "Κλασσικό")
+        {
+            /* Κλασσικό */
+            <div class="p-5 font-classic">
+                <div class="text-center mb-5 border-bottom border-2 border-dark pb-3">
+                    <h2 class="fw-bold mb-2">@ViewBag.UserFullName</h2>
+                    <div class="fs-6 text-dark">
+                        <span>@ViewBag.UserEmail</span>
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <span> | @Model.PhoneNumber</span>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.LinkedIn))
+                        {
+                            <br />
+                            <span class="mt-1 d-inline-block">LinkedIn: @Model.LinkedIn</span>
+                        }
+                    </div>
+                </div>
+
+                <h5 class="fw-bold text-uppercase mb-2 border-bottom border-dark border-1 pb-1">Επαγγελματικη Εμπειρια</h5>
+                <p style="white-space: pre-wrap;" class="mb-4 fs-6">@Model.WorkInfo</p>
+
+                <h5 class="fw-bold text-uppercase mb-2 border-bottom border-dark border-1 pb-1">Ακαδημαικη Πορεια</h5>
+                <p style="white-space: pre-wrap;" class="mb-4 fs-6">@Model.AcademicInfo</p>
+
+                @if (!string.IsNullOrEmpty(Model.Skills))
+                {
+                    <h5 class="fw-bold text-uppercase mb-2 border-bottom border-dark border-1 pb-1">Δεξιοτητες</h5>
+                    <p style="white-space: pre-wrap;" class="mb-4 fs-6">@Model.Skills</p>
+                }
+            </div>
+        }
+        else
+        {
+            /* Μινιμαλιστικό */
+            <div class="p-5 font-minimal text-dark">
+
+                <div class="row mb-5 align-items-end border-bottom pb-3">
+                    <div class="col-8">
+                        <h2 class="fw-bold m-0">@ViewBag.UserFullName</h2>
+                    </div>
+                    <div class="col-4 text-end text-muted fs-6">
+                        <div>@ViewBag.UserEmail</div>
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <div>@Model.PhoneNumber</div>
+                        }
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-3 text-end pe-4 text-muted fw-bold text-uppercase">Εμπειρια</div>
+                    <div class="col-9 border-start ps-4">
+                        <p style="white-space: pre-wrap;" class="m-0 fs-6">@Model.WorkInfo</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-3 text-end pe-4 text-muted fw-bold text-uppercase">Εκπαιδευση</div>
+                    <div class="col-9 border-start ps-4">
+                        <p style="white-space: pre-wrap;" class="m-0 fs-6">@Model.AcademicInfo</p>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Skills))
+                {
+                    <div class="row mb-4">
+                        <div class="col-3 text-end pe-4 text-muted fw-bold text-uppercase">Δεξιοτητες</div>
+                        <div class="col-9 border-start ps-4">
+                            <p style="white-space: pre-wrap;" class="m-0 fs-6">@Model.Skills</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
+</div>

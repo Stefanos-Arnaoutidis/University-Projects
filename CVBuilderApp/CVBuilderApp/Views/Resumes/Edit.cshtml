@@ -1,0 +1,141 @@
+﻿@model CVBuilderApp.Models.Resume
+
+@{
+    ViewData["Title"] = "Επεξεργασία Βιογραφικού";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-warning p-4 border-0">
+                    <h3 class="mb-0 fw-bold text-dark">
+                        ✏️ Επεξεργασία Βιογραφικού
+                    </h3>
+                </div>
+
+                <div class="card-body p-5 bg-white">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-4">
+                            <label asp-for="PersonalSummary" class="form-label fw-bold text-secondary">Προσωπικό Προφίλ</label>
+                            <textarea asp-for="PersonalSummary" class="form-control rounded-3" rows="3" placeholder="Λίγα λόγια για εσάς..."></textarea>
+                            <span asp-validation-for="PersonalSummary" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="WorkInfo" class="form-label fw-bold text-secondary">Επαγγελματική Εμπειρία</label>
+                            <textarea asp-for="WorkInfo" class="form-control rounded-3" rows="5" placeholder="Αναφέρετε την προϋπηρεσία σας..."></textarea>
+                            <span asp-validation-for="WorkInfo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="AcademicInfo" class="form-label fw-bold text-secondary">Ακαδημαϊκή Πορεία</label>
+                            <textarea asp-for="AcademicInfo" class="form-control rounded-3" rows="4" placeholder="Σπουδές, πτυχία, σεμινάρια..."></textarea>
+                            <span asp-validation-for="AcademicInfo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Δεξιότητες (Skills)</label>
+
+                            @if (ViewBag.PredefinedItems != null)
+                            {
+                                var allItems = ViewBag.PredefinedItems as IEnumerable<CVBuilderApp.Models.PredefinedList>;
+                                var skills = allItems?.Where(x => x.Type == "Skill").ToList();
+                                var languages = allItems?.Where(x => x.Type == "Language").ToList();
+
+                                if (skills != null && skills.Any())
+                                {
+                                    <div class="mb-2">
+                                        <span class="small text-muted me-2">Τεχνικές Γνώσεις:</span>
+                                        @foreach (var item in skills)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill me-1 mb-1" onclick="appendSkill('@item.Name')">
+                                                + @item.Name
+                                            </button>
+                                        }
+                                    </div>
+                                }
+
+                                if (languages != null && languages.Any())
+                                {
+                                    <div class="mb-2">
+                                        <span class="small text-muted me-2">Ξένες Γλώσσες:</span>
+                                        @foreach (var item in languages)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-info text-dark rounded-pill me-1 mb-1" onclick="appendSkill('@item.Name')">
+                                                + @item.Name
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            }
+
+                            <textarea asp-for="Skills" class="form-control bg-light border-0 shadow-sm" rows="3" placeholder="π.χ. Java, Python, Godot, Ομαδικότητα..."></textarea>
+                            <span asp-validation-for="Skills" class="text-danger small fw-bold"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label asp-for="PhoneNumber" class="form-label fw-bold text-secondary">Τηλέφωνο (Προαιρετικό)</label>
+                                <input asp-for="PhoneNumber" class="form-control rounded-3" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LinkedIn" class="form-label fw-bold text-secondary">LinkedIn (Προαιρετικό)</label>
+                                <input asp-for="LinkedIn" class="form-control rounded-3" placeholder="π.χ. linkedin.com/in/username" />
+                                <span asp-validation-for="LinkedIn" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-5 p-4 bg-light rounded-3 border">
+                            <label asp-for="TemplateId" class="form-label fw-bold text-dark">🎨 Επιλογή Προτύπου (Template)</label>
+                            <select asp-for="TemplateId" class="form-select border-primary shadow-sm">
+                                @foreach (var template in ViewBag.Templates)
+                                {
+                                    <option value="@template.Id">@template.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="TemplateId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">
+                                Ακύρωση
+                            </a>
+                            <button type="submit" class="btn btn-warning text-dark rounded-pill px-5 fw-bold shadow-sm">
+                                Αποθήκευση Αλλαγών
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function appendSkill(skillName) {
+        var textArea = document.getElementById('Skills');
+        var currentVal = textArea.value.trim();
+
+        // Χωρίζουμε τις υπάρχουσες δεξιότητες με βάση το κόμμα για σωστό έλεγχο
+        var existingSkills = currentVal.split(',').map(function(s) { return s.trim(); });
+
+        // Αν υπάρχει ήδη ακριβώς η ίδια λέξη, αγνόησε το κλικ
+        if (existingSkills.includes(skillName)) {
+            return;
+        }
+
+        if (currentVal.length > 0) {
+            if (!currentVal.endsWith(',')) {
+                textArea.value = currentVal + ', ' + skillName;
+            } else {
+                textArea.value = currentVal + ' ' + skillName;
+            }
+        } else {
+            textArea.value = skillName;
+        }
+    }
+</script>

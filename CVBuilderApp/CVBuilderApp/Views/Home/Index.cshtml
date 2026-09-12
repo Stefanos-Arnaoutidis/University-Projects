@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Αρχική";
+}
+
+<div class="text-center py-5 px-4 rounded-4 shadow-lg mb-5 mt-3 text-white" style="background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);">
+    <h1 class="display-4 fw-bold mb-3">Καλώς ήρθατε στο <span class="text-warning">CVBuilderApp</span></h1>
+    <p class="lead mx-auto text-light" style="max-width: 600px;">
+        Η απόλυτη πλατφόρμα δημιουργίας και αξιολόγησης επαγγελματικών βιογραφικών. Σχεδιάστε το μέλλον σας με λίγα μόνο κλικ.
+    </p>
+
+    <div class="mt-5">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Users" asp-action="Register" class="btn btn-warning btn-lg mx-2 px-4 shadow-sm fw-bold">Ξεκινήστε τώρα</a>
+            <a asp-controller="Users" asp-action="Login" class="btn btn-outline-light btn-lg mx-2 px-4 shadow-sm">Σύνδεση</a>
+        }
+        else
+        {
+            if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Admin" asp-action="Index" class="btn btn-warning btn-lg mx-1 px-4 shadow-sm fw-bold text-dark">Εγκρίσεις</a>
+                <a asp-controller="Admin" asp-action="Templates" class="btn btn-warning btn-lg mx-1 px-4 shadow-sm fw-bold text-dark">Πρότυπα</a>
+                <a asp-controller="Admin" asp-action="ManageLists" class="btn btn-warning btn-lg mx-1 px-4 shadow-sm fw-bold text-dark">Λίστες</a>
+                <a asp-controller="Admin" asp-action="Stats" class="btn btn-warning btn-lg mx-1 px-4 shadow-sm fw-bold text-dark">Στατιστικά</a>
+            }
+            else if (User.IsInRole("Counselor"))
+            {
+                <a asp-controller="Counselor" asp-action="Index" class="btn btn-warning btn-lg px-4 shadow-sm fw-bold text-dark">Αξιολόγηση Βιογραφικών</a>
+            }
+            else
+            {
+                <a asp-controller="Resumes" asp-action="Index" class="btn btn-warning btn-lg px-4 shadow-sm fw-bold text-dark">Τα Βιογραφικά μου</a>
+            }
+        }
+    </div>
+</div>
+
+<div class="row text-center mt-5 mb-5">
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm custom-hover-card">
+            <div class="card-body p-4">
+                <div class="display-5 mb-3">📝</div>
+                <h4 class="card-title fw-bold text-dark">Εύκολη Δημιουργία</h4>
+                <p class="card-text text-muted mt-3">
+                    Συμπληρώστε τα στοιχεία σας σε μια απλή φόρμα και αφήστε το σύστημα να δομήσει το βιογραφικό σας αυτόματα.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm custom-hover-card">
+            <div class="card-body p-4">
+                <div class="display-5 mb-3">🎨</div>
+                <h4 class="card-title fw-bold text-dark">Επιλογή Προτύπου</h4>
+                <p class="card-text text-muted mt-3">
+                    Διαλέξτε ανάμεσα σε διάφορα εικαστικά πρότυπα (Κλασικό, Μοντέρνο κ.ά.) που ταιριάζουν στο προφίλ σας.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm custom-hover-card">
+            <div class="card-body p-4">
+                <div class="display-5 mb-3">🔍</div>
+                <h4 class="card-title fw-bold text-dark">Αξιολόγηση Ειδικών</h4>
+                <p class="card-text text-muted mt-3">
+                    Λάβετε στοχευμένη ανατροφοδότηση και διορθώσεις από εξειδικευμένους συμβούλους καριέρας.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .custom-hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .custom-hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+        }
+</style>
