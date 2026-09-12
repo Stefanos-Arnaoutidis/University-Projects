@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Unipi City Vibe</string>
+
+    <string name="login_welcome">Bine ați venit!\nIntroduceți numele complet pentru a continua.</string>
+    <string name="login_hint_name">Nume Complet</string>
+    <string name="login_button">INTRARE</string>
+    <string name="error_empty_name">Vă rugăm să introduceți numele complet</string>
+
+    <string name="events_loading">Se încarcă evenimentele...</string>
+    <string name="events_empty">Nu s-au găsit evenimente.</string>
+
+    <string name="settings_title">Setări</string>
+    <string name="settings_user_info">Informații Utilizator</string>
+    <string name="settings_app_prefs">Preferințe Aplicație</string>
+    <string name="settings_font_size">Dimensiune Font:</string>
+    <string name="settings_font_small">Mic</string>
+    <string name="settings_font_normal">Normal</string>
+    <string name="settings_font_large">Mare</string>
+    <string name="settings_appearance">Aspect</string>
+    <string name="settings_dark_mode">Mod Întunecat (Dark Mode)</string>
+    <string name="settings_save_btn">SALVEAZĂ</string>
+    <string name="settings_saved_toast">Setările au fost salvate!</string>
+
+    <string name="details_description">Descriere:</string>
+    <string name="details_price">Preț:</string>
+    <string name="details_book_hint">Nume Rezervare</string>
+    <string name="details_book_btn">REZERVĂ BILET</string>
+    <string name="details_booking_progress">Se rezervă...</string>
+    <string name="details_success_toast">Rezervare finalizată!</string>
+
+    <string name="notification_title">Ești aproape de un eveniment!</string>
+    <string name="notification_body_start">Evenimentul</string>
+    <string name="notification_body_end">este lângă tine!</string>
+</resources>

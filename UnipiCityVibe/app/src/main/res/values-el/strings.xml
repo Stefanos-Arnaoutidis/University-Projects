@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Unipi City Vibe</string>
+
+    <string name="login_welcome">Καλώς ήρθατε!\nΕισάγετε το ονοματεπώνυμό σας για να συνεχίσετε.</string>
+    <string name="login_hint_name">Ονοματεπώνυμο</string>
+    <string name="login_button">ΕΙΣΟΔΟΣ</string>
+    <string name="error_empty_name">Παρακαλώ γράψτε το ονοματεπώνυμό σας</string>
+
+    <string name="events_loading">Φόρτωση εκδηλώσεων...</string>
+    <string name="events_empty">Δεν βρέθηκαν εκδηλώσεις.</string>
+
+    <string name="settings_title">Ρυθμίσεις</string>
+    <string name="settings_user_info">Στοιχεία Χρήστη</string>
+    <string name="settings_app_prefs">Προτιμήσεις Εφαρμογής</string>
+    <string name="settings_font_size">Μέγεθος Γραμματοσειράς:</string>
+    <string name="settings_font_small">Μικρό</string>
+    <string name="settings_font_normal">Κανονικό</string>
+    <string name="settings_font_large">Μεγάλο</string>
+    <string name="settings_appearance">Εμφάνιση</string>
+    <string name="settings_dark_mode">Dark Mode (Σκοτεινό Θέμα)</string>
+    <string name="settings_save_btn">ΑΠΟΘΗΚΕΥΣΗ</string>
+    <string name="settings_saved_toast">Οι ρυθμίσεις αποθηκεύτηκαν!</string>
+
+    <string name="details_description">Περιγραφή:</string>
+    <string name="details_price">Τιμή:</string>
+    <string name="details_book_hint">Ονοματεπώνυμο Κράτησης</string>
+    <string name="details_book_btn">ΚΡΑΤΗΣΗ ΕΙΣΙΤΗΡΙΟΥ</string>
+    <string name="details_booking_progress">Γίνεται κράτηση...</string>
+    <string name="details_success_toast">Η κράτηση ολοκληρώθηκε!</string>
+
+    <string name="notification_title">Είστε κοντά σε εκδήλωση!</string>
+    <string name="notification_body_start">Η εκδήλωση</string>
+    <string name="notification_body_end">είναι δίπλα σας!</string>
+</resources>
