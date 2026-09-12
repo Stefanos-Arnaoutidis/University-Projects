@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Unipi Audio Stories</string>
+
+    <string name="btn_view_stats">VEZI STATISTICI</string>
+    <string name="btn_play">REDARE</string>
+    <string name="btn_stop">STOP</string>
+
+    <string name="title_stats">Statistici Utilizator</string>
+    <string name="label_favorite">Povestea Preferată:</string>
+    <string name="msg_loading">Se încarcă...</string>
+    <string name="msg_no_stories">Nicio poveste redată încă.</string>
+    <string name="word_times">ori</string>
+
+    <string name="msg_story_started">Povestea a început!</string>
+    <string name="msg_tts_error">Eroare TTS!</string>
+    <string name="msg_lang_error">Limba nu este suportată!</string>
+</resources>

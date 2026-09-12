@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Unipi Audio Stories</string>
+
+    <string name="btn_view_stats">ΠΡΟΒΟΛΗ ΣΤΑΤΙΣΤΙΚΩΝ</string>
+    <string name="btn_play">ΑΝΑΠΑΡΑΓΩΓΗ</string>
+    <string name="btn_stop">ΔΙΑΚΟΠΗ</string>
+
+    <string name="title_stats">Στατιστικά Χρήστη</string>
+    <string name="label_favorite">Αγαπημένη Ιστορία:</string>
+    <string name="msg_loading">Φόρτωση...</string>
+    <string name="msg_no_stories">Δεν υπάρχουν ιστορίες ακόμα.</string>
+    <string name="word_times">φορές</string>
+
+    <string name="msg_story_started">Η ιστορία ξεκίνησε!</string>
+    <string name="msg_tts_error">Σφάλμα ομιλίας!</string>
+    <string name="msg_lang_error">Η γλώσσα δεν υποστηρίζεται!</string>
+</resources>
