@@ -1,0 +1,143 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Αρχική Σελίδα";
+    
+    var username = HttpContextAccessor.HttpContext.Session.GetString("username");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("role");
+    var fullname = HttpContextAccessor.HttpContext.Session.GetString("fullname");
+
+    var displayUser = fullname ?? username;
+}
+
+<div class="text-center mt-5">
+    
+    @if (username == null)
+    {
+        <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+            <div class="container-fluid py-5">
+                <h1 class="display-4 fw-bold text-primary">UniSystem Πανεπιστημίου</h1>
+                <p class="col-md-8 fs-4 mx-auto text-muted">
+                    Καλώς ήρθατε στο σύστημα διαχείρισης βαθμολογιών. 
+                    Παρακαλούμε συνδεθείτε για να συνεχίσετε.
+                </p>
+                <a class="btn btn-primary btn-lg px-5 mt-3" asp-controller="Login" asp-action="Index" role="button">🔑 Είσοδος (Login)</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success shadow-sm mb-5" role="alert">
+            <h4 class="alert-heading">Καλώς ήρθες, @displayUser!</h4>
+            <p class="mb-0">Είσαι συνδεδεμένος ως <strong>
+                @if(role=="Professor"){ <text>Καθηγητής 👨‍🏫</text> }
+                else if(role=="Student"){ <text>Φοιτητής 🎓</text> }
+                else if(role=="Secretary"){ <text>Γραμματεία 📂</text> }
+                else { @role }
+            </strong>.</p>
+        </div>
+
+        <div class="row g-4">
+            
+            @* --- ΕΠΙΛΟΓΕΣ ΦΟΙΤΗΤΗ --- *@
+            @if (role == "Student")
+            {
+                <div class="col-md-6 offset-md-3">
+                    <div class="card h-100 border-primary shadow hover-card">
+                        <div class="card-body py-5">
+                            <h2 class="display-4">📊</h2>
+                            <h3 class="card-title text-primary">Οι Βαθμοί μου</h3>
+                            <p class="card-text text-muted">Δες αναλυτικά τις βαθμολογίες σου ανά μάθημα.</p>
+                            <a asp-controller="Students" asp-action="MyGrades" class="btn btn-primary btn-lg mt-3">Προβολή Βαθμών</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @* --- ΕΠΙΛΟΓΕΣ ΚΑΘΗΓΗΤΗ --- *@
+            @if (role == "Professor")
+            {
+                 <div class="col-md-6 offset-md-3">
+                    <div class="card h-100 border-warning shadow hover-card">
+                        <div class="card-body py-5">
+                            <h2 class="display-4">📘</h2>
+                            <h3 class="card-title text-warning">Τα Μαθήματά μου</h3>
+                            <p class="card-text text-muted">Διαχειρίσου τα μαθήματά σου και βαθμολόγησε φοιτητές.</p>
+                            <a asp-controller="Professors" asp-action="MyCourses" class="btn btn-warning btn-lg text-white mt-3">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @* --- ΕΠΙΛΟΓΕΣ ΓΡΑΜΜΑΤΕΙΑΣ / ADMIN --- *@
+            @if (role == "Secretary" || role == "Admin")
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-primary">
+                        <div class="card-body text-center">
+                            <div class="fs-1 mb-2">🎓</div>
+                            <h5 class="card-title text-primary">Φοιτητές</h5>
+                            <p class="small text-muted">Διαχείριση στοιχείων φοιτητών (ΑΜ, Τμήμα)</p>
+                            <a asp-controller="Students" asp-action="Index" class="btn btn-outline-primary w-100">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-warning">
+                        <div class="card-body text-center">
+                            <div class="fs-1 mb-2">👨‍🏫</div>
+                            <h5 class="card-title text-warning">Καθηγητές</h5>
+                            <p class="small text-muted">Διαχείριση καθηγητών (ΑΦΜ, Τμήμα)</p>
+                            <a asp-controller="Professors" asp-action="Index" class="btn btn-outline-warning text-dark w-100">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-secondary">
+                        <div class="card-body text-center">
+                            <div class="fs-1 mb-2">📂</div>
+                            <h5 class="card-title text-secondary">Προσωπικό</h5>
+                            <p class="small text-muted">Διαχείριση προσωπικού γραμματείας</p>
+                            <a asp-controller="Secretaries" asp-action="Index" class="btn btn-outline-secondary w-100">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-success">
+                        <div class="card-body text-center">
+                            <div class="fs-1 mb-2">📚</div>
+                            <h5 class="card-title text-success">Μαθήματα</h5>
+                            <p class="small text-muted">Δημιουργία και επεξεργασία μαθημάτων</p>
+                            <a asp-controller="Courses" asp-action="Index" class="btn btn-outline-success w-100">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-danger">
+                        <div class="card-body text-center">
+                            <div class="fs-1 mb-2">📝</div>
+                            <h5 class="card-title text-danger">Δηλώσεις</h5>
+                            <p class="small text-muted">Αναθέσεις μαθημάτων σε φοιτητές</p>
+                            <a asp-controller="CourseHasStudents" asp-action="Index" class="btn btn-outline-danger w-100">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-dark">
+                        <div class="card-body text-center">
+                            <div class="fs-1 mb-2">🔐</div>
+                            <h5 class="card-title text-dark">Λογαριασμοί</h5>
+                            <p class="small text-muted">Δημιουργία κωδικών πρόσβασης (Users)</p>
+                            <a asp-controller="Users" asp-action="Index" class="btn btn-outline-dark w-100">Διαχείριση</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

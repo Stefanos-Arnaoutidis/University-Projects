@@ -1,0 +1,41 @@
+﻿@model UniSystem.Models.Professor
+@{
+    ViewData["Title"] = "Λεπτομέρειες Καθηγητή";
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-info" style="max-width: 600px; margin: auto;">
+        <div class="card-header bg-info text-dark text-center py-3">
+            <h4 class="mb-0">ℹ️ Καρτέλα Καθηγητή</h4>
+        </div>
+        <div class="card-body p-4">
+            <div class="text-center mb-4">
+                <div class="display-1">👨‍🏫</div>
+            </div>
+            <dl class="row fs-5">
+                <dt class="col-sm-4 text-muted small text-uppercase">🆔 ΑΦΜ</dt>
+                <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Afm)</dd>
+
+                <hr class="text-muted opacity-25">
+
+                <dt class="col-sm-4 text-muted small text-uppercase">📝 Όνομα</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4 text-muted small text-uppercase">📝 Επώνυμο</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Surname)</dd>
+
+                <hr class="text-muted opacity-25">
+
+                <dt class="col-sm-4 text-muted small text-uppercase">🏢 Τμήμα</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Department)</dd>
+
+                <dt class="col-sm-4 text-muted small text-uppercase">👤 Username</dt>
+                <dd class="col-sm-8 text-primary">@Html.DisplayFor(model => model.UsersUsername)</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end bg-light">
+            <a asp-action="Edit" asp-route-id="@Model.Afm" class="btn btn-warning shadow-sm">✏️ Επεξεργασία</a>
+            <a asp-action="Index" class="btn btn-secondary shadow-sm">🔙 Πίσω</a>
+        </div>
+    </div>
+</div>

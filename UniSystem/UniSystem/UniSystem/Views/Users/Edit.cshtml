@@ -1,0 +1,48 @@
+﻿@model UniSystem.Models.User
+
+@{
+    ViewData["Title"] = "Επεξεργασία Χρήστη";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-warning text-dark text-center py-3">
+                <h4 class="mb-0">✏️ Επεξεργασία Χρήστη</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Username" /> <div class="mb-3 text-center">
+                        <h5 class="text-muted">Χρήστης: <strong>@Model.Username</strong></h5>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
+                        <label asp-for="Password">🔑 Νέος Κωδικός</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="Role" class="form-select" asp-items="ViewBag.RoleList">
+                            <option value="">-- Επιλέξτε Ρόλο --</option>
+                        </select>
+                        <label asp-for="Role">🎭 Ρόλος</label>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Αποθήκευση Αλλαγών" class="btn btn-primary btn-lg" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">🔙 Πίσω στη Λίστα</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

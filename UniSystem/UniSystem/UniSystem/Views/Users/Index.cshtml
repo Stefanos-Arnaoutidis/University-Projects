@@ -1,0 +1,70 @@
+﻿@model IEnumerable<UniSystem.Models.User>
+
+@{
+    ViewData["Title"] = "Διαχείριση Χρηστών";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary fw-bold">👥 Διαχείριση Λογαριασμών</h1>
+        <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm">
+            ➕ Νέος Χρήστης
+        </a>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th class="py-3 ps-4">Όνομα Χρήστη (Username)</th>
+                        <th class="py-3">Κωδικός (Password)</th>
+                        <th class="py-3">Ρόλος</th>
+                        <th class="py-3 text-end pe-4">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark">
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td class="text-muted">
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+                            <td>
+                                @if (item.Role == "Admin")
+                                {
+                                    <span class="badge bg-dark">Admin</span>
+                                }
+                                else if (item.Role == "Secretary")
+                                {
+
+                                    <span class="badge bg-warning text-dark">Γραμματεία</span>
+                                }
+                                else if (item.Role == "Professor")
+                                {
+
+                                    <span class="badge bg-success">Καθηγητής</span>
+                                }
+                                else
+                                {
+
+                                    <span class="badge bg-info text-dark">Φοιτητής</span>
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.Username" class="btn btn-outline-primary btn-sm" title="Επεξεργασία">✏️</a>
+                                    <a asp-action="Details" asp-route-id="@item.Username" class="btn btn-outline-info btn-sm" title="Λεπτομέρειες">ℹ️</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Username" class="btn btn-outline-danger btn-sm" title="Διαγραφή">🗑️</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

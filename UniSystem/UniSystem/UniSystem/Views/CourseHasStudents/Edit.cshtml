@@ -1,0 +1,53 @@
+﻿@model UniSystem.Models.CourseHasStudent
+
+@{
+    ViewData["Title"] = "Βαθμολόγηση";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-warning text-dark text-center py-3">
+                <h4 class="mb-0">✏️ Βαθμολόγηση Φοιτητή</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <input type="hidden" asp-for="CourseIdCourse" />
+                    <input type="hidden" asp-for="StudentsRegistrationNumber" />
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted small text-uppercase">Μαθημα</label>
+                        <input class="form-control bg-light fw-bold" value="@(Model.CourseIdCourseNavigation?.CourseTitle ?? "Μάθημα " + Model.CourseIdCourse)" disabled />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted small text-uppercase">Φοιτητης</label>
+                        <input class="form-control bg-light" value="@(Model.StudentsRegistrationNumberNavigation?.Name + " " + Model.StudentsRegistrationNumberNavigation?.Surname)" disabled />
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="GradeCourseStudent" class="form-control fs-4 fw-bold text-center text-primary" type="number" min="0" max="10" placeholder="Βαθμός" />
+                        <label asp-for="GradeCourseStudent">🏅 Βαθμός (0-10)</label>
+                        <span asp-validation-for="GradeCourseStudent" class="text-danger"></span>
+                        <div class="form-text text-center">Αφήστε κενό αν δεν έχει βαθμολογηθεί ακόμα.</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Αποθήκευση Βαθμολογίας" class="btn btn-primary btn-lg" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">🔙 Πίσω στη Λίστα</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

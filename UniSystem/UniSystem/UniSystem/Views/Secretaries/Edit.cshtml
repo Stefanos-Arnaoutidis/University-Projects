@@ -1,0 +1,72 @@
+﻿@model UniSystem.Models.Secretary
+
+@{
+    ViewData["Title"] = "Επεξεργασία";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-warning text-dark text-center py-3">
+                <h4 class="mb-0">✏️ Επεξεργασία Στοιχείων</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <input type="hidden" asp-for="Phonenumber" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input class="form-control bg-light" value="@Model.Phonenumber" disabled />
+                                <label>📞 Τηλέφωνο (Δεν αλλάζει)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <select asp-for="UsersUsername" class="form-select" asp-items="ViewBag.UsersUsername"></select>
+                                <label asp-for="UsersUsername">👤 Συνδεδεμένος Χρήστης</label>
+                                <span asp-validation-for="UsersUsername" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input asp-for="Name" class="form-control" placeholder="Όνομα" />
+                                <label asp-for="Name">📝 Όνομα</label>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input asp-for="Surname" class="form-control" placeholder="Επώνυμο" />
+                                <label asp-for="Surname">📝 Επώνυμο</label>
+                                <span asp-validation-for="Surname" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Department" class="form-control" placeholder="Τμήμα" />
+                        <label asp-for="Department">🏢 Τμήμα</label>
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Αποθήκευση" class="btn btn-primary btn-lg" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">🔙 Πίσω στη Λίστα</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

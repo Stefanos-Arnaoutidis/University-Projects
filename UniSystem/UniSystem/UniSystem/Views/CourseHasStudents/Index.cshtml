@@ -1,0 +1,78 @@
+﻿@model IEnumerable<UniSystem.Models.CourseHasStudent>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Δηλώσεις & Βαθμολογίες";
+    var role = HttpContextAccessor.HttpContext.Session.GetString("role");
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary fw-bold">📝 Δηλώσεις & Βαθμολογίες</h1>
+        @if (role == "Secretary" || role == "Admin")
+        {
+            <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm">
+                ➕ Νέα Δήλωση
+            </a>
+        }
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th class="py-3 ps-4">Μάθημα</th>
+                        <th class="py-3">Φοιτητής (ΑΜ)</th>
+                        <th class="py-3 text-center">Βαθμός</th>
+                        <th class="py-3 text-end pe-4">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <span class="fw-bold text-dark">📘 @Html.DisplayFor(modelItem => item.CourseIdCourseNavigation.CourseTitle)</span>
+                                <br />
+                                <span class="badge bg-light text-secondary border">Εξάμηνο @item.CourseIdCourseNavigation.CourseSemester</span>
+                            </td>
+                            <td>
+                                🎓 @item.StudentsRegistrationNumberNavigation.Name @item.StudentsRegistrationNumberNavigation.Surname
+                                <br />
+                                <small class="text-muted font-monospace">(AM: @item.StudentsRegistrationNumber)</small>
+                            </td>
+                            <td class="text-center">
+                                @if (item.GradeCourseStudent == null)
+                                {
+                                    <span class="badge bg-secondary opacity-50">- Εκκρεμεί -</span>
+                                }
+                                else if (item.GradeCourseStudent >= 5)
+                                {
+                                    <span class="badge bg-success fs-6">@item.GradeCourseStudent / 10</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">@item.GradeCourseStudent / 10</span>
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-courseId="@item.CourseIdCourse" asp-route-studentId="@item.StudentsRegistrationNumber" class="btn btn-outline-primary btn-sm" title="Βαθμολόγηση">✏️</a>
+
+                                    <a asp-action="Details" asp-route-courseId="@item.CourseIdCourse" asp-route-studentId="@item.StudentsRegistrationNumber" class="btn btn-outline-info btn-sm" title="Λεπτομέρειες">ℹ️</a>
+
+                                    @if (role == "Secretary" || role == "Admin")
+                                    {
+                                        <a asp-action="Delete" asp-route-courseId="@item.CourseIdCourse" asp-route-studentId="@item.StudentsRegistrationNumber" class="btn btn-outline-danger btn-sm" title="Διαγραφή">🗑️</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

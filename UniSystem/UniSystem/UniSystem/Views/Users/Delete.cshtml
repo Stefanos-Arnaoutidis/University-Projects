@@ -1,0 +1,61 @@
+﻿@model UniSystem.Models.User
+
+@{
+    ViewData["Title"] = "Διαγραφή Χρήστη";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger text-white text-center py-3">
+                <h4 class="mb-0">🗑️ Διαγραφή Χρήστη</h4>
+            </div>
+            <div class="card-body p-4 text-center">
+
+                <h5 class="card-title text-danger mb-3 fw-bold">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτόν τον χρήστη;</h5>
+                <p class="text-muted mb-4">Αυτή η ενέργεια είναι οριστική και δεν μπορεί να αναιρεθεί.</p>
+
+                <div class="bg-light p-4 rounded mb-4 text-start border">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5 text-secondary">👤 Όνομα Χρήστη:</dt>
+                        <dd class="col-sm-7 fw-bold text-dark">@Html.DisplayFor(model => model.Username)</dd>
+
+                        <dt class="col-sm-5 text-secondary">🔑 Κωδικός:</dt>
+                        <dd class="col-sm-7 font-monospace">@Html.DisplayFor(model => model.Password)</dd>
+
+                        <dt class="col-sm-5 text-secondary">🎭 Ρόλος:</dt>
+                        <dd class="col-sm-7">
+                            @if (Model.Role == "Admin")
+                            {
+                                <span class="badge bg-dark">Admin</span>
+                            }
+                            else if (Model.Role == "Secretary")
+                            {
+
+                                <span class="badge bg-warning text-dark">Γραμματεία</span>
+                            }
+                            else if (Model.Role == "Professor")
+                            {
+
+                                <span class="badge bg-success">Καθηγητής</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-info text-dark">Φοιτητής</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Username" />
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="ΟΡΙΣΤΙΚΗ ΔΙΑΓΡΑΦΗ" class="btn btn-danger btn-lg fw-bold shadow-sm" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

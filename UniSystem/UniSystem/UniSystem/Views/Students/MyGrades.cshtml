@@ -1,0 +1,139 @@
+﻿@model IEnumerable<UniSystem.Models.CourseHasStudent>
+
+@{
+    ViewData["Title"] = "Οι Βαθμοί μου";
+
+    // Υπολογισμός Συνολικού Μέσου Όρου (Γενικός)
+    var allGraded = Model.Where(x => x.GradeCourseStudent != null).ToList();
+    double? totalAverage = null;
+    if (allGraded.Any())
+    {
+        totalAverage = allGraded.Average(x => x.GradeCourseStudent);
+    }
+
+    // Ομαδοποίηση ανά Εξάμηνο
+    // Μετατρέπουμε το string Semester σε int για σωστή ταξινόμηση
+    var gradesBySemester = Model
+        .GroupBy(x => x.CourseIdCourseNavigation.CourseSemester)
+        .OrderBy(g => int.Parse(g.Key))
+        .ToList();
+}
+
+<div class="container mt-5">
+
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h1 class="text-primary fw-bold">📊 Οι Βαθμοί μου</h1>
+            <p class="text-muted">Αναλυτική βαθμολογία ανά εξάμηνο.</p>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body text-center py-3">
+                    <h5 class="mb-0 text-white-50 text-uppercase small">Γενικος Μ.Ο. Πτυχιου</h5>
+                    @if (totalAverage != null)
+                    {
+                        <div class="display-4 fw-bold">@totalAverage.Value.ToString("0.00")</div>
+                    }
+                    else
+                    {
+                        <div class="fs-4">-</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div class="display-1 mb-3">📭</div>
+            <h4 class="text-muted">Δεν βρέθηκαν εγγραφές.</h4>
+            <p>Δεν έχετε δηλώσει μαθήματα ακόμα.</p>
+        </div>
+    }
+    else
+    {
+        // Λούπα για κάθε Εξάμηνο ξεχωριστά
+        @foreach (var semesterGroup in gradesBySemester)
+        {
+            // Υπολογισμός Μέσου Όρου για το συγκεκριμένο εξάμηνο
+            var semesterGrades = semesterGroup.Where(x => x.GradeCourseStudent != null).ToList();
+            double? semesterAvg = null;
+            if (semesterGrades.Any())
+            {
+                semesterAvg = semesterGrades.Average(x => x.GradeCourseStudent);
+            }
+
+            <div class="card shadow-lg border-0 mb-5">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 fw-bold text-primary">
+                        📘 @semesterGroup.Key<small class="fs-6 text-muted">o</small> Εξάμηνο
+                    </h4>
+
+                    @if (semesterAvg != null)
+                    {
+                        <span class="badge bg-warning text-dark fs-6 shadow-sm">
+                            Μ.Ο. Εξαμήνου: <strong>@semesterAvg.Value.ToString("0.00")</strong>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-light text-muted border">Δεν υπάρχουν βαθμοί</span>
+                    }
+                </div>
+
+                <div class="card-body p-0">
+                    <table class="table table-hover table-striped mb-0 align-middle">
+                        <thead class="bg-light text-secondary border-bottom">
+                            <tr>
+                                <th class="py-3 ps-4">Μάθημα</th>
+                                <th class="py-3 text-center">Βαθμός</th>
+                                <th class="py-3 text-end pe-4">Κατάσταση</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in semesterGroup)
+                            {
+                                <tr>
+                                    <td class="ps-4">
+                                        <span class="fw-bold text-dark">@Html.DisplayFor(modelItem => item.CourseIdCourseNavigation.CourseTitle)</span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.GradeCourseStudent == null)
+                                        {
+                                            <span class="text-muted fst-italic">-</span>
+                                        }
+                                        else if (item.GradeCourseStudent >= 5)
+                                        {
+                                            <span class="fs-5 fw-bold text-success">@item.GradeCourseStudent</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fs-5 fw-bold text-danger">@item.GradeCourseStudent</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-end pe-4">
+                                        @if (item.GradeCourseStudent == null)
+                                        {
+                                            <span class="badge bg-secondary opacity-50">⏳ Εκκρεμεί</span>
+                                        }
+                                        else if (item.GradeCourseStudent >= 5)
+                                        {
+                                            <span class="badge bg-success shadow-sm">✅ Επιτυχία</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger shadow-sm">❌ Αποτυχία</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+</div>

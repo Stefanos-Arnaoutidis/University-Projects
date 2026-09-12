@@ -1,0 +1,39 @@
+﻿@model UniSystem.Models.Professor
+@{
+    ViewData["Title"] = "Διαγραφή Καθηγητή";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger text-white text-center py-3">
+                <h4 class="mb-0">🗑️ Διαγραφή Καθηγητή</h4>
+            </div>
+            <div class="card-body p-4 text-center">
+                <h5 class="card-title text-danger mb-3 fw-bold">ΠΡΟΣΟΧΗ: Διαγραφή Εγγραφής</h5>
+                <p class="text-muted mb-4">Είστε σίγουροι; Αυτή η ενέργεια δεν αναιρείται.</p>
+
+                <div class="bg-light p-4 rounded mb-4 text-start border">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5 text-muted small text-uppercase">🆔 ΑΦΜ</dt>
+                        <dd class="col-sm-7 fw-bold text-dark">@Html.DisplayFor(model => model.Afm)</dd>
+
+                        <dt class="col-sm-5 text-muted small text-uppercase">📝 Ονοματεπώνυμο</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.Surname)</dd>
+
+                        <dt class="col-sm-5 text-muted small text-uppercase">🏢 Τμήμα</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Department)</dd>
+                    </dl>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Afm" />
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="ΟΡΙΣΤΙΚΗ ΔΙΑΓΡΑΦΗ" class="btn btn-danger btn-lg fw-bold shadow-sm" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

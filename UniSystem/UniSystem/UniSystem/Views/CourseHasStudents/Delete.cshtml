@@ -1,0 +1,53 @@
+﻿@model UniSystem.Models.CourseHasStudent
+@{
+    ViewData["Title"] = "Διαγραφή Δήλωσης";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger text-white text-center py-3">
+                <h4 class="mb-0">🗑️ Διαγραφή Δήλωσης</h4>
+            </div>
+            <div class="card-body p-4 text-center">
+                <h5 class="card-title text-danger mb-3 fw-bold">ΠΡΟΣΟΧΗ: Διαγραφή Δήλωσης Μαθήματος</h5>
+                <p class="text-muted mb-4">Είστε σίγουροι; Αν υπάρχει βαθμός, θα χαθεί οριστικά.</p>
+
+                <div class="bg-light p-4 rounded mb-4 text-start border">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5 text-muted small text-uppercase">📚 Μάθημα</dt>
+                        <dd class="col-sm-7 fw-bold text-dark">@Html.DisplayFor(model => model.CourseIdCourseNavigation.CourseTitle)</dd>
+
+                        <dt class="col-sm-5 text-muted small text-uppercase">🎓 Φοιτητής</dt>
+                        <dd class="col-sm-7">
+                            @Html.DisplayFor(model => model.StudentsRegistrationNumberNavigation.Name)
+                            @Html.DisplayFor(model => model.StudentsRegistrationNumberNavigation.Surname)
+                        </dd>
+
+                        <dt class="col-sm-5 text-muted small text-uppercase">🏅 Βαθμός</dt>
+                        <dd class="col-sm-7">
+                            @if (Model.GradeCourseStudent != null)
+                            {
+                                <span>@Model.GradeCourseStudent / 10</span>
+                            }
+                            else
+                            {
+
+                                <span>-</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="CourseIdCourse" />
+                    <input type="hidden" asp-for="StudentsRegistrationNumber" />
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="ΟΡΙΣΤΙΚΗ ΔΙΑΓΡΑΦΗ" class="btn btn-danger btn-lg fw-bold shadow-sm" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

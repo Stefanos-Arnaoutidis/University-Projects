@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var username = HttpContextAccessor.HttpContext.Session.GetString("username");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("role");
+    var fullname = HttpContextAccessor.HttpContext.Session.GetString("fullname");
+    var displayName = fullname ?? username;
+}
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UniSystem</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary border-bottom box-shadow mb-3 py-3">
+            <div class="container">
+                <a class="navbar-brand fw-bold fs-4" asp-area="" asp-controller="Home" asp-action="Index">
+                    🎓 UniSystem
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav">
+                        @if (username != null)
+                        {
+                            <li class="nav-item d-flex align-items-center me-3">
+                                <span class="text-white">
+                                    👋 Γεια σου, <strong>@displayName</strong>
+                                    <span class="badge bg-light text-primary ms-1">@role</span>
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light btn-sm fw-bold" asp-area="" asp-controller="Login" asp-action="Logout">
+                                    🚪 Αποσύνδεση
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-light text-primary fw-bold px-4" asp-area="" asp-controller="Login" asp-action="Index">
+                                    🔑 Σύνδεση
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container flex-grow-1">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted mt-auto py-3 bg-light">
+        <div class="container text-center">
+            &copy; 2025 - UniSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

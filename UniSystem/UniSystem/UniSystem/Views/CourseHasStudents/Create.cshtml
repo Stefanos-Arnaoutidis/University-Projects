@@ -1,0 +1,45 @@
+﻿@model UniSystem.Models.CourseHasStudent
+
+@{
+    ViewData["Title"] = "Νέα Δήλωση";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="mb-0">📝 Νέα Δήλωση Μαθήματος</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="form-floating mb-3">
+                        <select asp-for="CourseIdCourse" class="form-select" asp-items="ViewBag.CourseIdCourse">
+                            <option value="">-- Επιλέξτε Μάθημα --</option>
+                        </select>
+                        <label asp-for="CourseIdCourse">📚 Μάθημα</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="StudentsRegistrationNumber" class="form-select" asp-items="ViewBag.StudentsRegistrationNumber">
+                            <option value="">-- Επιλέξτε Φοιτητή --</option>
+                        </select>
+                        <label asp-for="StudentsRegistrationNumber">🎓 Φοιτητής</label>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Δημιουργία Δήλωσης" class="btn btn-primary btn-lg" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">🔙 Πίσω στη Λίστα</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,52 @@
+﻿@model UniSystem.Models.User
+
+@{
+    ViewData["Title"] = "Σύνδεση";
+    var message = ViewData["Message"] as string;
+}
+
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <div class="card shadow-lg border-0" style="width: 100%; max-width: 500px;">
+        <div class="card-header bg-primary text-white text-center py-4">
+            <h3 class="mb-0 fw-bold">🔐 Είσοδος στο Σύστημα</h3>
+            <p class="mb-0 text-white-50">Συνδεθείτε για να συνεχίσετε</p>
+        </div>
+        <div class="card-body p-5">
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Username" class="form-control" placeholder="Username" />
+                    <label asp-for="Username">👤 Όνομα Χρήστη</label>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <label asp-for="Password">🔒 Κωδικός Πρόσβασης</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="alert alert-danger text-center" role="alert">
+                        ⚠️ @message
+                    </div>
+                }
+
+                <div class="d-grid gap-2">
+                    <input type="submit" value="Είσοδος" class="btn btn-primary btn-lg fw-bold" />
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3 bg-light text-muted small">
+            Πανεπιστήμιο Πειραιώς &copy; 2025
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

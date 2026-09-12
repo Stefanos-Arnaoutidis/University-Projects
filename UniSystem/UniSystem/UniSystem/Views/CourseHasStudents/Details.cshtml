@@ -1,0 +1,55 @@
+﻿@model UniSystem.Models.CourseHasStudent
+@{
+    ViewData["Title"] = "Λεπτομέρειες Βαθμολογίας";
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-info" style="max-width: 700px; margin: auto;">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h4 class="mb-0">📜 Λεπτομέρειες Βαθμολογίας</h4>
+        </div>
+        <div class="card-body p-4">
+
+            <dl class="row align-items-center">
+                <dt class="col-sm-4 text-muted small text-uppercase">Μαθημα</dt>
+                <dd class="col-sm-8 fw-bold fs-5">
+                    @Html.DisplayFor(model => model.CourseIdCourseNavigation.CourseTitle)
+                    <span class="badge bg-info text-dark fs-6 ms-2">Εξάμηνο @Model.CourseIdCourseNavigation.CourseSemester</span>
+                </dd>
+
+                <hr class="text-muted opacity-25 my-3">
+
+                <dt class="col-sm-4 text-muted small text-uppercase">Φοιτητης (ΑΜ)</dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.StudentsRegistrationNumberNavigation.RegistrationNumber) -
+                    @Html.DisplayFor(model => model.StudentsRegistrationNumberNavigation.Name)
+                    @Html.DisplayFor(model => model.StudentsRegistrationNumberNavigation.Surname)
+                </dd>
+
+                <hr class="text-muted opacity-25 my-3">
+
+                <dt class="col-sm-4 text-muted small text-uppercase">Βαθμος</dt>
+                <dd class="col-sm-8">
+                    @if (Model.GradeCourseStudent >= 5)
+                    {
+                        <div class="text-success display-4 fw-bold">@Model.GradeCourseStudent / 10</div>
+                        <span class="badge bg-success">ΕΠΙΤΥΧΙΑ</span>
+                    }
+                    else if (Model.GradeCourseStudent < 5 && Model.GradeCourseStudent != null)
+                    {
+                        <div class="text-danger display-4 fw-bold">@Model.GradeCourseStudent / 10</div>
+                        <span class="badge bg-danger">ΑΠΟΤΥΧΙΑ</span>
+                    }
+                    else
+                    {
+                        <div class="text-secondary display-6 fst-italic">- Δεν βαθμολογήθηκε -</div>
+                    }
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end bg-light">
+            <a asp-action="Edit" asp-route-courseId="@Model.CourseIdCourse" asp-route-studentId="@Model.StudentsRegistrationNumber" class="btn btn-warning shadow-sm">✏️ Επεξεργασία</a>
+            <a asp-action="Index" class="btn btn-secondary shadow-sm">🔙 Πίσω</a>
+        </div>
+    </div>
+</div>

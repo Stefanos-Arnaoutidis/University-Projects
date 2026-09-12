@@ -1,0 +1,63 @@
+﻿@model IEnumerable<UniSystem.Models.Course>
+
+@{
+    ViewData["Title"] = "Τα Μαθήματά μου";
+}
+
+<div class="container mt-5">
+    <div class="mb-4 text-center text-md-start">
+        <h1 class="text-primary fw-bold">👨‍🏫 Τα Μαθήματά μου</h1>
+        <p class="text-muted">Δείτε τα μαθήματα που διδάσκετε και προχωρήστε σε βαθμολόγηση.</p>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0 fw-bold">📚 Λίστα Ανατεθειμένων Μαθημάτων</h5>
+        </div>
+
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <div class="display-1 mb-3">📭</div>
+                    <h4 class="text-muted">Δεν βρέθηκαν μαθήματα.</h4>
+                    <p>Δεν σας έχει ανατεθεί κάποιο μάθημα ακόμα από τη Γραμματεία.</p>
+                </div>
+            }
+            else
+            {
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="bg-light text-primary border-bottom">
+                        <tr>
+                            <th class="py-3 ps-4">Τίτλος Μαθήματος</th>
+                            <th class="py-3">Εξάμηνο</th>
+                            <th class="py-3 text-end pe-4">Ενέργειες</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="fw-bold text-dark fs-5">📘 @Html.DisplayFor(modelItem => item.CourseTitle)</span>
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-info text-dark fs-6 shadow-sm">
+                                        @Html.DisplayFor(modelItem => item.CourseSemester)o Εξάμηνο
+                                    </span>
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <a asp-controller="CourseHasStudents" asp-action="Index" asp-route-courseId="@item.IdCourse" class="btn btn-primary shadow-sm fw-bold px-4 rounded-pill">
+                                        ✏️ Βαθμολόγηση Φοιτητών
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<UniSystem.Models.Course>
+
+@{
+    ViewData["Title"] = "Διαχείριση Μαθημάτων";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary fw-bold">📚 Διαχείριση Μαθημάτων</h1>
+        <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm">
+            ➕ Νέο Μάθημα
+        </a>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th class="py-3 ps-4">Τίτλος Μαθήματος</th>
+                        <th class="py-3">Εξάμηνο</th>
+                        <th class="py-3">Διδάσκων Καθηγητής</th>
+                        <th class="py-3 text-end pe-4">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark">
+                                📘 @Html.DisplayFor(modelItem => item.CourseTitle)
+                            </td>
+                            <td>
+                                <span class="badge bg-info text-dark fs-6">
+                                    @Html.DisplayFor(modelItem => item.CourseSemester)o Εξάμηνο
+                                </span>
+                            </td>
+                            <td>
+                                👨‍🏫
+                                @if (item.ProfessorsAfmNavigation != null)
+                                {
+                                    <span>@item.ProfessorsAfmNavigation.Name @item.ProfessorsAfmNavigation.Surname</span>
+                                    <span class="text-muted small">(@item.ProfessorsAfm)</span>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.ProfessorsAfm)
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.IdCourse" class="btn btn-outline-primary btn-sm" title="Επεξεργασία">✏️</a>
+                                    <a asp-action="Details" asp-route-id="@item.IdCourse" class="btn btn-outline-info btn-sm" title="Λεπτομέρειες">ℹ️</a>
+                                    <a asp-action="Delete" asp-route-id="@item.IdCourse" class="btn btn-outline-danger btn-sm" title="Διαγραφή">🗑️</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

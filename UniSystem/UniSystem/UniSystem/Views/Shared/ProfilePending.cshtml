@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Εκκρεμεί Προφίλ";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+
+            <div class="card shadow-lg border-warning">
+                <div class="card-body p-5">
+                    <div class="display-1 mb-4">⚠️</div>
+
+                    <h2 class="text-primary fw-bold mb-3">Ο Λογαριασμός σας δεν έχει συνδεθεί ακόμα!</h2>
+
+                    <p class="fs-5 text-muted">
+                        Αγαπητέ χρήστη, έχετε συνδεθεί επιτυχώς στο σύστημα, αλλά
+                        <strong class="text-dark">δεν έχει δημιουργηθεί ακόμα το Προφίλ σας</strong>
+                        (ως Καθηγητής ή Φοιτητής).
+                    </p>
+
+                    <hr class="my-4" />
+
+                    <div class="alert alert-info" role="alert">
+                        <h5 class="alert-heading">Τι πρέπει να κάνετε;</h5>
+                        <p class="mb-0">
+                            Παρακαλούμε επικοινωνήστε με τη <strong>Γραμματεία</strong> για να ολοκληρώσει
+                            την εγγραφή των στοιχείων σας στο σύστημα.
+                        </p>
+                    </div>
+
+                    <div class="mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow-sm">
+                            🏠 Επιστροφή στην Αρχική
+                        </a>
+                        <a asp-controller="Login" asp-action="Logout" class="btn btn-outline-danger btn-lg px-5 shadow-sm ms-2">
+                            🚪 Αποσύνδεση
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

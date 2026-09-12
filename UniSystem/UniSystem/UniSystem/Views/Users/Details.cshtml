@@ -1,0 +1,64 @@
+﻿@model UniSystem.Models.User
+
+@{
+    ViewData["Title"] = "Λεπτομέρειες Χρήστη";
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-info" style="max-width: 600px; margin: auto;">
+        <div class="card-header bg-info text-dark text-center py-3">
+            <h4 class="mb-0">ℹ️ Λεπτομέρειες Χρήστη</h4>
+        </div>
+        <div class="card-body p-4">
+            <dl class="row fs-5 align-items-center">
+
+                <dt class="col-sm-5 text-muted small text-uppercase">
+                    👤 Όνομα Χρήστη
+                </dt>
+                <dd class="col-sm-7 fw-bold text-dark">
+                    @Html.DisplayFor(model => model.Username)
+                </dd>
+
+                <hr class="my-2 text-muted opacity-25">
+
+                <dt class="col-sm-5 text-muted small text-uppercase">
+                    🔑 Κωδικός
+                </dt>
+                <dd class="col-sm-7 font-monospace">
+                    @Html.DisplayFor(model => model.Password)
+                </dd>
+
+                <hr class="my-2 text-muted opacity-25">
+
+                <dt class="col-sm-5 text-muted small text-uppercase">
+                    🎭 Ρόλος
+                </dt>
+                <dd class="col-sm-7">
+                    @if (Model.Role == "Admin")
+                    {
+                        <span class="badge bg-dark">Admin</span>
+                    }
+                    else if (Model.Role == "Secretary")
+                    {
+
+                        <span class="badge bg-warning text-dark">Γραμματεία</span>
+                    }
+                    else if (Model.Role == "Professor")
+                    {
+
+                        <span class="badge bg-success">Καθηγητής</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-info text-dark">Φοιτητής</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end bg-light">
+            <a asp-action="Edit" asp-route-id="@Model.Username" class="btn btn-warning shadow-sm">✏️ Επεξεργασία</a>
+            <a asp-action="Index" class="btn btn-secondary shadow-sm">🔙 Πίσω</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model UniSystem.Models.Course
+@{
+    ViewData["Title"] = "Διαγραφή Μαθήματος";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger text-white text-center py-3">
+                <h4 class="mb-0">🗑️ Διαγραφή Μαθήματος</h4>
+            </div>
+            <div class="card-body p-4 text-center">
+                <h5 class="card-title text-danger mb-3 fw-bold">ΠΡΟΣΟΧΗ: Διαγραφή Μαθήματος</h5>
+                <p class="text-muted mb-4">Είστε σίγουροι; Αν το διαγράψετε, μπορεί να χαθούν και οι βαθμολογίες.</p>
+
+                <div class="bg-light p-4 rounded mb-4 text-start border">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5 text-muted small text-uppercase">📘 Τίτλος</dt>
+                        <dd class="col-sm-7 fw-bold text-dark">@Html.DisplayFor(model => model.CourseTitle)</dd>
+
+                        <dt class="col-sm-5 text-muted small text-uppercase">🗓️ Εξάμηνο</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.CourseSemester)</dd>
+
+                        <dt class="col-sm-5 text-muted small text-uppercase">👨‍🏫 Καθηγητής</dt>
+                        <dd class="col-sm-7">
+                            @if (Model.ProfessorsAfmNavigation != null)
+                            {
+                                @Model.ProfessorsAfmNavigation.Name @Model.ProfessorsAfmNavigation.Surname
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.ProfessorsAfm)
+                            }
+                        </dd>
+                    </dl>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="IdCourse" />
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="ΟΡΙΣΤΙΚΗ ΔΙΑΓΡΑΦΗ" class="btn btn-danger btn-lg fw-bold shadow-sm" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

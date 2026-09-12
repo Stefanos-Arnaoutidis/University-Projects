@@ -1,0 +1,50 @@
+﻿@model UniSystem.Models.Course
+
+@{
+    ViewData["Title"] = "Δημιουργία Μαθήματος";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="mb-0">📚 Νέο Μάθημα</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="CourseTitle" class="form-control" placeholder="Τίτλος" />
+                        <label asp-for="CourseTitle">📘 Τίτλος Μαθήματος</label>
+                        <span asp-validation-for="CourseTitle" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="CourseSemester" class="form-control" placeholder="Εξάμηνο" type="number" min="1" max="10" />
+                        <label asp-for="CourseSemester">🗓️ Εξάμηνο (1-10)</label>
+                        <span asp-validation-for="CourseSemester" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="ProfessorsAfm" class="form-select" asp-items="ViewBag.ProfessorsAfm">
+                            <option value="">-- Επιλέξτε Καθηγητή --</option>
+                        </select>
+                        <label asp-for="ProfessorsAfm">👨‍🏫 Διδάσκων Καθηγητής</label>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Δημιουργία" class="btn btn-primary btn-lg" />
+                        <a asp-action="Index" class="btn btn-outline-secondary">🔙 Πίσω στη Λίστα</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
