@@ -1,0 +1,85 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f8f9fa; 
+}
+
+.bg-primary {
+    background-color: #6f42c1 !important;
+}
+
+.text-primary {
+    color: #6f42c1 !important;
+}
+
+.btn-primary {
+    background-color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+        background-color: #59359a !important;
+        border-color: #59359a !important;
+    }
+
+.btn-outline-primary {
+    color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #6f42c1 !important;
+        border-color: #6f42c1 !important;
+        color: #fff !important;
+    }
+
+a {
+    color: #6f42c1;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+    a:hover {
+        color: #4a2c8a;
+        text-decoration: underline;
+    }
+
+.border-primary {
+    border-color: #6f42c1 !important;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem rgba(111, 66, 193, 0.25);
+    border-color: #6f42c1;
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card.shadow:hover, .card.shadow-sm:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    }
+
+.table thead th {
+    background-color: #6f42c1;
+    color: white;
+    border-color: #59359a;
+}
